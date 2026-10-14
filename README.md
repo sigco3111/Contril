@@ -34,7 +34,7 @@ GitHub Pages의 한국어 버전은 저장소의 `docs/index.html`을 사용합�
 
 ## 코드와 빌드
 
-한글화 소스를 포크에 직접 반영했습니다. `korean-localization.patch`는 원본과 번역본의 변경 기록입니다. Pages에는 이 변경을 적용한 정적 단일 HTML 빌드(`docs/index.html`)를 실었습니다. 번들 안에도 한국어 UI가 포함되어 있으므로 서버 없이 실행됩니다.
+한글화 소스를 포크에 직접 반영했습니다. `korean-localization.patch`는 원본과 번역본의 변경 기록입니다. Pages에는 이 변경을 적용한 정적 단일 HTML 빌드(`docs/1-index.html`)를 실었습니다. 번들 안에도 한국어 UI가 포함되어 있으므로 서버 없이 실행됩니다.
 
 ```bash
 npm install
@@ -45,7 +45,8 @@ npm run build
 - `src/ui/`: 메뉴·HUD·결과 화면
 - `src/net/`: 방 연결·네트워크
 - `src/water/`, `src/render/`: 바다·셀셰이딩
-- `docs/index.html`: 한국어 정적 배포본
+- `docs/index.html`: `1-index.html`을 여는 배포 launcher
+- `docs/1-index.html`: 코드·스타일을 포함한 한국어 게임 빌드
 - `README.en.md`: 원본 영문 README
 - 한국어 글꼴: Noto Sans KR, 맑은 고딕 및 시스템 글꼴 폴백. Google Fonts에 접속하지 못해도 시스템 글꼴로 표시됩니다.
 
