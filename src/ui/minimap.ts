@@ -176,7 +176,7 @@ export class Minimap {
     }
 
     // Corner tab label.
-    inkText(g, 'COURSE', 9 * s, size - 7 * s, {
+    inkText(g, '코스', 9 * s, size - 7 * s, {
       font: `700 ${Math.round(9.5 * s)}px ${FONT_STACK}`,
       fill: rgba(HEX.hudDim, 0.95),
       tracking: 2.4 * s,
