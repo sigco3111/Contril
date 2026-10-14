@@ -113,7 +113,7 @@ export class Screens {
 
     if (n > 3) {
       // The lead-in beat of a 4 s countdown: a marshalling tab, no numeral.
-      this.tab(g, cx, cy, 'STAND BY', s, rgba(HEX.hudPaper, 0.92), frac);
+      this.tab(g, cx, cy, '준비', s, rgba(HEX.hudPaper, 0.92), frac);
       return;
     }
 
@@ -263,7 +263,7 @@ export class Screens {
     // Ink slab behind the word so it reads even over bright foam.
     const slab = slantPath(-w * 0.24, -px * 0.62, w * 0.48, px * 0.98, 34 * s);
     inked(g, slab, rgba(HEX.ink, 1), rgba(HEX.raceLine, 0.9), PLATE_W * s);
-    inkText(g, 'GO!', 0, px * 0.3, {
+    inkText(g, '출발!', 0, px * 0.3, {
       font: `900 ${px}px ${FONT_STACK}`,
       fill: rgba(HEX.raceLine, 1),
       ink: rgba(HEX.ink, 1),
@@ -314,7 +314,7 @@ export class Screens {
     const x = w * 0.5 + (1 - inT) * w * 0.28;
     g.save();
     g.globalAlpha = out;
-    this.tab(g, x, y, `LAP ${Math.min(ctx.player.lap + 1, CONFIG.race.laps)}`, s, rgba(HEX.boostHot, 1), t);
+    this.tab(g, x, y, `랩 ${Math.min(ctx.player.lap + 1, CONFIG.race.laps)}`, s, rgba(HEX.boostHot, 1), t);
     g.restore();
   }
 
@@ -402,7 +402,7 @@ export class Screens {
     g.translate(boardCx, headY);
     g.scale(0.82 + hIn * 0.18, 0.82 + hIn * 0.18);
     const won = player.place === 1;
-    inkText(g, won ? 'VICTORY' : 'RACE COMPLETE', 0, -34 * s, {
+    inkText(g, won ? '우승' : '레이스 종료', 0, -34 * s, {
       font: `800 ${Math.round(21 * s)}px ${FONT_STACK}`,
       fill: rgba(won ? HEX.boostHot : HEX.hudDim, 1),
       align: 'center',
@@ -507,7 +507,7 @@ export class Screens {
           skew: 0.12,
         });
       } else {
-        inkText(g, 'WINNER', gapX, by + 6 * s, {
+        inkText(g, '우승자', gapX, by + 6 * s, {
           font: `800 ${Math.round(13 * s)}px ${FONT_STACK}`,
           fill: rgba(HEX.boostHot, 1),
           align: 'right',
@@ -528,7 +528,7 @@ export class Screens {
           skew: 0.09,
         });
       } else {
-        inkText(g, 'DNF', tx, ry + 33 * s, {
+        inkText(g, '미완주', tx, ry + 33 * s, {
           font: `800 ${Math.round(24 * s)}px ${FONT_STACK}`,
           fill: rgba(HEX.warn, 1),
           align: 'right',
@@ -536,7 +536,7 @@ export class Screens {
         });
       }
       const best = isFinite(r.bestLap) ? formatTime(r.bestLap) : '--:--.---';
-      inkText(g, `BEST ${best}`, tx, ry + rowH - 9 * s, {
+      inkText(g, `최고 ${best}`, tx, ry + rowH - 9 * s, {
         font: `700 ${Math.round(13 * s)}px ${FONT_STACK}`,
         fill: rgba(HEX.hudDim, 1),
         align: 'right',
@@ -557,7 +557,7 @@ export class Screens {
       const px = boardCx - pw * 0.5;
       const plaque = cutPath(px, footY - 24 * s, pw, 46 * s, 14 * s, 0b0101);
       plate(g, plaque, s, { edge: rgba(HEX.raceLine, 0.9) });
-      inkText(g, 'FASTEST LAP', px + 18 * s, footY + 4 * s, {
+      inkText(g, '최고 랩', px + 18 * s, footY + 4 * s, {
         font: `800 ${Math.round(13 * s)}px ${FONT_STACK}`,
         fill: rgba(HEX.raceLine, 1),
         align: 'left',
@@ -599,7 +599,7 @@ export class Screens {
           plate(g, cell, s, {
             edge: isBest ? rgba(HEX.raceLine, 0.9) : rgba(HEX.hudPaper, 0.72),
           });
-          inkText(g, `L${i + 1}`, x + 16 * s, sy + 26 * s, {
+          inkText(g, `${i + 1}랩`, x + 16 * s, sy + 26 * s, {
             font: `800 ${Math.round(14 * s)}px ${FONT_STACK}`,
             fill: rgba(isBest ? HEX.raceLine : HEX.hudDim, 1),
             align: 'left',
@@ -633,7 +633,7 @@ export class Screens {
         g.lineTo(bx2 - dir * 10 * s, py + 6 * s);
         g.stroke();
       }
-      inkText(g, 'PRESS  R  TO RACE AGAIN', boardCx, py + 2 * s, {
+      inkText(g, 'R 키로 다시 레이싱', boardCx, py + 2 * s, {
         font: `800 ${Math.round(17 * s)}px ${FONT_STACK}`,
         fill: rgba(HEX.hudPaper, 0.55 + 0.45 * blink),
         align: 'center',
@@ -653,7 +653,7 @@ export class Screens {
     const cy = h * 0.4;
     const slab = slantPath(cx - w * 0.26, cy - 44 * s, w * 0.52, 88 * s, 30 * s);
     inked(g, slab, rgba(HEX.ink, 1), rgba(HEX.boostHot, 0.9), PLATE_W * s);
-    inkText(g, 'FINISH', cx, cy + 22 * s, {
+    inkText(g, '완주', cx, cy + 22 * s, {
       font: `900 ${Math.round(62 * s)}px ${FONT_STACK}`,
       fill: rgba(HEX.hudPaper, 1),
       ink: rgba(HEX.ink, 1),
