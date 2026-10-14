@@ -1,6 +1,9 @@
+import { viteSingleFile } from 'vite-plugin-singlefile';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: '/Contril/',
+  plugins: [viteSingleFile()],
   server: {
     port: 5173,
     strictPort: false,
@@ -17,7 +20,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Keep three in its own chunk so the game code stays cache-friendly.
-        manualChunks: { three: ['three'] },
+        
       },
     },
   },
