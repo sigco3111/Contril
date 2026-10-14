@@ -29,7 +29,7 @@
 import { HEX } from '../core/palette';
 
 export const FONT_STACK =
-  'ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';
+  '"Noto Sans KR", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';
 
 /** `rgba()` string from a palette hex and an alpha. */
 export function rgba(hex: number, a: number) {
