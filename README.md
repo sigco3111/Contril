@@ -34,10 +34,9 @@ GitHub Pages의 한국어 버전은 저장소의 `docs/index.html`을 사용합�
 
 ## 코드와 빌드
 
-원본 소스는 포크에 보존됩니다. 한글화 소스 변경 전체는 `korean-localization.patch`에 있으며, 아래 명령으로 원본 소스에 적용할 수 있습니다. Pages에는 이 변경을 적용한 정적 단일 HTML 빌드(`docs/index.html`)를 실었습니다. 번들 안에도 한국어 UI가 포함되어 있으므로 서버 없이 실행됩니다.
+한글화 소스를 포크에 직접 반영했습니다. `korean-localization.patch`는 원본과 번역본의 변경 기록입니다. Pages에는 이 변경을 적용한 정적 단일 HTML 빌드(`docs/index.html`)를 실었습니다. 번들 안에도 한국어 UI가 포함되어 있으므로 서버 없이 실행됩니다.
 
 ```bash
-git apply korean-localization.patch
 npm install
 npm run typecheck
 npm run build
