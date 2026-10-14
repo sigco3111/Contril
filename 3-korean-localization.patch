@@ -1,0 +1,611 @@
+diff --git a/index.html b/index.html
+index 509c815..ecbcf14 100644
+--- a/index.html
++++ b/index.html
+@@ -1,14 +1,15 @@
+ <!doctype html>
+-<html lang="en">
++<html lang="ko">
+   <head>
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+-    <title>CONTRIL</title>
++    <title>CONTRIL - 한글판 보트 레이싱</title>
++    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" />
+     <style>
+       :root { color-scheme: dark; }
+       * { margin: 0; padding: 0; box-sizing: border-box; }
+       html, body { width: 100%; height: 100%; overflow: hidden; background: #061024; }
+-      body { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
++      body { font-family: "Noto Sans KR", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, sans-serif; }
+       #app { position: fixed; inset: 0; }
+       /* WebGL scene */
+       #gl { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+@@ -48,7 +49,7 @@
+         margin-bottom: 2px;
+       }
+       .tagline {
+-        font-size: 11px; font-weight: 700; letter-spacing: .32em;
++        font-size: 11px; font-weight: 700; letter-spacing: .08em;
+         text-transform: uppercase; color: #7fe0f5; margin-bottom: 24px;
+       }
+       .field-label {
+@@ -58,7 +59,7 @@
+       .menu-input {
+         width: 100%; padding: 10px 12px;
+         background: #081426; border: 1px solid #17324f; color: #f2fbff;
+-        font: 800 15px/1 ui-sans-serif, system-ui, sans-serif;
++        font: 800 15px/1 "Noto Sans KR", "Malgun Gothic", ui-sans-serif, system-ui, sans-serif;
+         letter-spacing: .18em; text-transform: uppercase; outline: none;
+       }
+       .menu-input:focus { border-color: #7fe0f5; }
+@@ -67,8 +68,8 @@
+       .mbtn {
+         flex: 1; padding: 13px 8px; cursor: pointer;
+         background: #17324f; color: #f2fbff; border: 1px solid rgba(242, 251, 255, .55);
+-        font: 800 13px/1 ui-sans-serif, system-ui, sans-serif;
+-        letter-spacing: .22em; text-transform: uppercase;
++        font: 800 13px/1 "Noto Sans KR", "Malgun Gothic", ui-sans-serif, system-ui, sans-serif;
++        letter-spacing: .04em; text-transform: uppercase;
+         transition: background .12s ease, border-color .12s ease;
+       }
+       .mbtn:hover { background: #ff4f3d; border-color: #ff4f3d; color: #081426; }
+@@ -91,7 +92,7 @@
+         display: flex; align-items: center; gap: 12px;
+         padding: 9px 12px; margin-bottom: 6px;
+         background: rgba(23, 50, 79, .65); border: 1px solid rgba(242, 251, 255, .25);
+-        font: 800 13px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .14em;
++        font: 800 13px/1 "Noto Sans KR", "Malgun Gothic", ui-sans-serif, system-ui, sans-serif; letter-spacing: .14em;
+         text-transform: uppercase;
+       }
+       .chip { width: 14px; height: 14px; transform: skewX(-12deg); flex: none; }
+@@ -112,31 +113,31 @@
+       <div id="menu">
+         <div class="panel">
+           <div class="title">CONTRIL</div>
+-          <div class="tagline">Cel-shaded arcade boat racing</div>
++          <div class="tagline">셀셰이딩 아케이드 보트 레이싱</div>
+ 
+           <div class="view on" data-view="title">
+-            <div class="field-label">Pilot name</div>
+-            <input id="m-name" class="menu-input" maxlength="10" spellcheck="false" autocomplete="off" placeholder="PILOT" />
++            <div class="field-label">레이서 이름</div>
++            <input id="m-name" class="menu-input" maxlength="10" spellcheck="false" autocomplete="off" placeholder="레이서" />
+             <div class="btn-row">
+-              <button id="m-solo" class="mbtn primary">Solo race</button>
+-              <button id="m-host" class="mbtn">Host online</button>
++              <button id="m-solo" class="mbtn primary">혼자 레이싱</button>
++              <button id="m-host" class="mbtn">온라인 방 만들기</button>
+             </div>
+-            <div class="field-label">Join with code</div>
++            <div class="field-label">코드로 참가</div>
+             <div class="btn-row">
+-              <input id="m-code" class="menu-input code" maxlength="5" spellcheck="false" autocomplete="off" placeholder="CODE" />
+-              <button id="m-join" class="mbtn" style="flex:0 0 auto;padding:13px 18px;">Join</button>
++              <input id="m-code" class="menu-input code" maxlength="5" spellcheck="false" autocomplete="off" placeholder="코드" />
++              <button id="m-join" class="mbtn" style="flex:0 0 auto;padding:13px 18px;">참가</button>
+             </div>
+           </div>
+ 
+           <div class="view" data-view="lobby">
+-            <div class="field-label" style="margin-top:0;">Room code — tap to copy</div>
+-            <div id="m-room-code" class="code-big" title="Copy code">·····</div>
+-            <div class="code-hint">Share it — friends pick “Join with code”</div>
++            <div class="field-label" style="margin-top:0;">방 코드 - 눌러서 복사</div>
++            <div id="m-room-code" class="code-big" title="코드 복사">·····</div>
++            <div class="code-hint">Share it — friends pick “코드로 참가”</div>
+             <ul id="m-roster" class="roster"></ul>
+             <div id="m-lobby-status" class="status info"></div>
+             <div class="btn-row">
+-              <button id="m-back" class="mbtn">Back</button>
+-              <button id="m-start" class="mbtn primary" disabled>Start race</button>
++              <button id="m-back" class="mbtn">뒤로</button>
++              <button id="m-start" class="mbtn primary" disabled>레이스 시작</button>
+             </div>
+           </div>
+         </div>
+diff --git a/package-lock.json b/package-lock.json
+index f41a79d..b434d07 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -15,7 +15,8 @@
+         "@types/three": "^0.185.1",
+         "playwright": "^1.62.0",
+         "typescript": "^5.9.3",
+-        "vite": "^7.1.11"
++        "vite": "^7.1.11",
++        "vite-plugin-singlefile": "^2.3.3"
+       }
+     },
+     "node_modules/@dimforge/rapier3d-compat": {
+@@ -885,6 +886,19 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/braces": {
++      "version": "3.0.3",
++      "resolved": "https://registry.npmjs.org/braces/-/braces-3.0.3.tgz",
++      "integrity": "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "fill-range": "^7.1.1"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
+     "node_modules/esbuild": {
+       "version": "0.28.1",
+       "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.1.tgz",
+@@ -952,6 +966,19 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/fill-range": {
++      "version": "7.1.1",
++      "resolved": "https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz",
++      "integrity": "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "to-regex-range": "^5.0.1"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
+     "node_modules/fsevents": {
+       "version": "2.3.2",
+       "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz",
+@@ -967,6 +994,16 @@
+         "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+       }
+     },
++    "node_modules/is-number": {
++      "version": "7.0.0",
++      "resolved": "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz",
++      "integrity": "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=0.12.0"
++      }
++    },
+     "node_modules/meshoptimizer": {
+       "version": "1.1.1",
+       "resolved": "https://registry.npmjs.org/meshoptimizer/-/meshoptimizer-1.1.1.tgz",
+@@ -974,6 +1011,33 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/micromatch": {
++      "version": "4.0.8",
++      "resolved": "https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz",
++      "integrity": "sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "braces": "^3.0.3",
++        "picomatch": "^2.3.1"
++      },
++      "engines": {
++        "node": ">=8.6"
++      }
++    },
++    "node_modules/micromatch/node_modules/picomatch": {
++      "version": "2.3.2",
++      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.3.2.tgz",
++      "integrity": "sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=8.6"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/jonschlinkert"
++      }
++    },
+     "node_modules/nanoid": {
+       "version": "3.3.16",
+       "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.16.tgz",
+@@ -1152,6 +1216,19 @@
+         "url": "https://github.com/sponsors/SuperchupuDev"
+       }
+     },
++    "node_modules/to-regex-range": {
++      "version": "5.0.1",
++      "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",
++      "integrity": "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "is-number": "^7.0.0"
++      },
++      "engines": {
++        "node": ">=8.0"
++      }
++    },
+     "node_modules/trystero": {
+       "version": "0.25.3",
+       "resolved": "https://registry.npmjs.org/trystero/-/trystero-0.25.3.tgz",
+@@ -1250,6 +1327,28 @@
+         }
+       }
+     },
++    "node_modules/vite-plugin-singlefile": {
++      "version": "2.3.3",
++      "resolved": "https://registry.npmjs.org/vite-plugin-singlefile/-/vite-plugin-singlefile-2.3.3.tgz",
++      "integrity": "sha512-XVnGH0QzbOa8fxRSsHdCarVN1BSBXNi7uLMQYlrGRN5apdHkk62XQWRJhVever0lnfuyBkwn+kvVChdm/OoOUg==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "micromatch": "^4.0.8"
++      },
++      "engines": {
++        "node": ">18.0.0"
++      },
++      "peerDependencies": {
++        "rollup": "^4.59.0",
++        "vite": "^5.4.21 || ^6.0.0 || ^7.0.0 || ^8.0.0"
++      },
++      "peerDependenciesMeta": {
++        "rollup": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/vite/node_modules/fsevents": {
+       "version": "2.3.3",
+       "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+diff --git a/package.json b/package.json
+index 41bf209..fd609d1 100644
+--- a/package.json
++++ b/package.json
+@@ -19,6 +19,7 @@
+     "@types/three": "^0.185.1",
+     "playwright": "^1.62.0",
+     "typescript": "^5.9.3",
+-    "vite": "^7.1.11"
++    "vite": "^7.1.11",
++    "vite-plugin-singlefile": "^2.3.3"
+   }
+ }
+diff --git a/src/core/mathx.ts b/src/core/mathx.ts
+index 8486e89..75d5a45 100644
+--- a/src/core/mathx.ts
++++ b/src/core/mathx.ts
+@@ -69,7 +69,5 @@ export function formatTime(seconds: number): string {
+ 
+ /** Ordinal suffix for finishing positions. */
+ export function ordinal(n: number): string {
+-  const s = ['th', 'st', 'nd', 'rd'];
+-  const v = n % 100;
+-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
++  return `${n}위`;
+ }
+diff --git a/src/main.ts b/src/main.ts
+index 10a7544..ca95523 100644
+--- a/src/main.ts
++++ b/src/main.ts
+@@ -41,7 +41,7 @@ const _waterPlane = new Plane(new Vector3(0, 1, 0), 0);
+ const _aimPt = new Vector3();
+ 
+ /** Grid names per slot. Humans rename slots 1–3 only by joining them. */
+-export const SLOT_NAMES = ['YOU', 'KAIRA', 'NOX', 'PIP'];
++export const SLOT_NAMES = ['나', '카이라', '녹스', '핍'];
+ 
+ class Game {
+   private scene = new Scene();
+diff --git a/src/net/session.ts b/src/net/session.ts
+index 932f346..f3a836a 100644
+--- a/src/net/session.ts
++++ b/src/net/session.ts
+@@ -216,7 +216,7 @@ export class NetSession {
+ 
+     const room = joinRoom({ appId: CONFIG.net.appId }, code, {
+       onJoinError: (details) =>
+-        this.hooks.onError(`Could not reach the signalling relays (${details.error}).`),
++        this.hooks.onError(`연결 릴레이에 접속하지 못했습니다 (${details.error}).`),
+     });
+     this.room = room;
+ 
+@@ -309,7 +309,7 @@ export class NetSession {
+       // broadcasting the AI field.
+       if (hostPeer && peerId === hostPeer.peerId) {
+         void this.leave();
+-        this.hooks.onError('The host left the room.');
++        this.hooks.onError('방장이 방을 나갔습니다.');
+         return;
+       }
+       this.roster = this.roster.filter((p) => p.peerId !== peerId);
+diff --git a/src/ui/hud.ts b/src/ui/hud.ts
+index 4cc9f15..b1b5a7c 100644
+--- a/src/ui/hud.ts
++++ b/src/ui/hud.ts
+@@ -302,7 +302,7 @@ export class Hud implements HudAPI {
+ 
+     const readout = slantPath(rx, ry, rw, rh, rh * PLATE_SKEW);
+     plate(g, readout, s, { hatchRect: [rx, ry, rw, rh] });
+-    inkText(g, 'SPEED', rx + 18 * s, ry + 21 * s, {
++    inkText(g, '속도', rx + 18 * s, ry + 21 * s, {
+       font: `800 ${Math.round(11 * s)}px ${FONT_STACK}`,
+       fill: rgba(HEX.hudDim, 1),
+       align: 'left',
+@@ -334,7 +334,7 @@ export class Hud implements HudAPI {
+     const bph = bh + 44 * s;
+     const bPlate = slantPath(bx - 14 * s, by - 34 * s, bpw, bph, bph * PLATE_SKEW);
+     plate(g, bPlate, s, { hatchRect: [bx - 14 * s, by - 34 * s, bpw, bph] });
+-    inkText(g, 'DRIFT', bx + 2 * s, by - 12 * s, {
++    inkText(g, '드리프트', bx + 2 * s, by - 12 * s, {
+       font: `800 ${Math.round(11.5 * s)}px ${FONT_STACK}`,
+       fill: rgba(HEX.foamShade, 0.9),
+       align: 'left',
+@@ -572,10 +572,10 @@ export class Hud implements HudAPI {
+     let tag: string | null = null;
+     let tagCol: number = HEX.waterCrest;
+     if (st.airborne) {
+-      tag = 'AIR';
++      tag = '공중';
+       tagCol = HEX.waterCrest;
+     } else if (st.forwardSpeed < -0.6) {
+-      tag = 'REV';
++      tag = '후진';
+       tagCol = HEX.warn;
+     }
+     if (tag) {
+@@ -653,7 +653,7 @@ export class Hud implements HudAPI {
+       const cx = bx + 3 * (bw + 7 * s) + 16 * s;
+       g.save();
+       g.globalAlpha = k;
+-      inkText(g, 'BOOST', cx, by + bh - 6 * s, {
++      inkText(g, '부스트', cx, by + bh - 6 * s, {
+         font: `900 ${Math.round(27 * s)}px ${FONT_STACK}`,
+         fill: rgba(HEX.boostHot, 1),
+         ink: rgba(HEX.ink, 1),
+@@ -997,7 +997,7 @@ export class Hud implements HudAPI {
+ 
+     // ── Lap counter.
+     const lx = ix + 150 * s;
+-    inkText(g, 'LAP', lx, iy + 26 * s, {
++    inkText(g, '랩', lx, iy + 26 * s, {
+       font: `800 ${Math.round(12 * s)}px ${FONT_STACK}`,
+       fill: rgba(HEX.hudDim, 1),
+       align: 'left',
+@@ -1027,8 +1027,8 @@ export class Hud implements HudAPI {
+     const bestIsNew =
+       p.lapTimes.length > 0 && isFinite(p.bestLap) && Math.abs(p.bestLap - last) < 1e-6;
+     const cols: [string, number, string][] = [
+-      ['LAST', last, rgba(HEX.hudPaper, 1)],
+-      ['BEST', p.bestLap, bestIsNew ? rgba(HEX.raceLine, 1) : rgba(HEX.foamShade, 1)],
++      ['이전', last, rgba(HEX.hudPaper, 1)],
++      ['최고', p.bestLap, bestIsNew ? rgba(HEX.raceLine, 1) : rgba(HEX.foamShade, 1)],
+     ];
+     cols.forEach(([label, value, col], i) => {
+       const cx = ix + 20 * s + i * (iw - 44 * s) * 0.5;
+@@ -1127,7 +1127,7 @@ export class Hud implements HudAPI {
+       inkText(g, gapTxt, rx + plateW - 9 * s, y + rowH - 7 * s, {
+         font: `800 ${Math.round(11.5 * s)}px ${FONT_STACK}`,
+         fill:
+-          gapTxt === 'LEAD'
++          gapTxt === '선두'
+             ? rgba(HEX.boostHot, 1)
+             : isPlayer
+               ? rgba(HEX.warn, 1)
+@@ -1144,7 +1144,7 @@ export class Hud implements HudAPI {
+    * per-gate delta flickers every time two boats straddle a checkpoint.
+    */
+   private gapText(ctx: GameContext, r: Racer, leader: Racer) {
+-    if (r === leader) return 'LEAD';
++    if (r === leader) return '선두';
+     const dLaps = leader.progress - r.progress;
+     const metres = dLaps * ctx.track.length;
+     const pace = Math.max(9, Math.abs(r.state.forwardSpeed));
+@@ -1176,7 +1176,7 @@ export class Hud implements HudAPI {
+       g.stroke();
+     }
+     g.restore();
+-    inkText(g, 'WRONG WAY', cx, cy + 12 * s, {
++    inkText(g, '역주행', cx, cy + 12 * s, {
+       font: `900 ${Math.round(34 * s)}px ${FONT_STACK}`,
+       fill: rgba(HEX.warn, 1),
+       ink: rgba(HEX.ink, 1),
+diff --git a/src/ui/inkDraw.ts b/src/ui/inkDraw.ts
+index 28bf150..5499090 100644
+--- a/src/ui/inkDraw.ts
++++ b/src/ui/inkDraw.ts
+@@ -29,7 +29,7 @@
+ import { HEX } from '../core/palette';
+ 
+ export const FONT_STACK =
+-  'ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';
++  '"Noto Sans KR", "Malgun Gothic", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';
+ 
+ /** `rgba()` string from a palette hex and an alpha. */
+ export function rgba(hex: number, a: number) {
+diff --git a/src/ui/menu.ts b/src/ui/menu.ts
+index 5690872..4c2fc7f 100644
+--- a/src/ui/menu.ts
++++ b/src/ui/menu.ts
+@@ -97,7 +97,7 @@ export class Menu {
+     this.backBtn.addEventListener('click', () => this.controller.leave());
+     this.roomCodeEl.addEventListener('click', () => {
+       void navigator.clipboard?.writeText(this.roomCode).then(
+-        () => this.showLobbyStatus(`${this.roomCode} copied`, true),
++        () => this.showLobbyStatus(`${this.roomCode} 복사됨`, true),
+         () => {},
+       );
+     });
+@@ -180,7 +180,7 @@ export class Menu {
+       const entry = s.roster.find((p) => p.slot === i);
+       slots.push({
+         slot: i,
+-        name: entry ? (entry.peerId === s.myPeerId ? `${entry.name} (you)` : entry.name || '…') : 'AI',
++        name: entry ? (entry.peerId === s.myPeerId ? `${entry.name} (나)` : entry.name || '…') : 'AI',
+         human: !!entry,
+         mine: !!entry && entry.peerId === s.myPeerId,
+       });
+@@ -200,7 +200,7 @@ export class Menu {
+         tag.className = 'slot-tag';
+         // AI slots already say "AI" in the name column; only human rows carry
+         // a readiness tag.
+-        tag.textContent = mine ? '' : human ? 'READY' : '';
++        tag.textContent = mine ? '' : human ? '준비 완료' : '';
+         li.append(chip, nm, tag);
+         return li;
+       }),
+@@ -211,15 +211,15 @@ export class Menu {
+       this.startBtn.disabled = s.roster.length < 1 || waiting;
+       this.showLobbyStatus(
+         waiting
+-          ? 'Waiting for pilots…'
++          ? '레이서 기다리는 중…'
+           : s.roster.length === 4
+-            ? 'Room full'
+-            : `${s.roster.length} of 4 slots taken`,
++            ? '방이 가득 찼습니다'
++            : `4명 중 ${s.roster.length}명 참가`,
+         true,
+       );
+     } else {
+       this.startBtn.disabled = true;
+-      this.showLobbyStatus('Joined — waiting for the host to start', true);
++      this.showLobbyStatus('참가 완료 - 방장의 시작을 기다리는 중', true);
+     }
+   }
+ 
+@@ -227,7 +227,7 @@ export class Menu {
+ 
+   private name(): string {
+     const n = this.nameInput.value.trim().toUpperCase();
+-    return (n || 'PILOT').slice(0, 10);
++    return (n || '레이서').slice(0, 10);
+   }
+ 
+   private persistName() {
+diff --git a/src/ui/screens.ts b/src/ui/screens.ts
+index e7ebce4..df4861a 100644
+--- a/src/ui/screens.ts
++++ b/src/ui/screens.ts
+@@ -113,7 +113,7 @@ export class Screens {
+ 
+     if (n > 3) {
+       // The lead-in beat of a 4 s countdown: a marshalling tab, no numeral.
+-      this.tab(g, cx, cy, 'STAND BY', s, rgba(HEX.hudPaper, 0.92), frac);
++      this.tab(g, cx, cy, '준비', s, rgba(HEX.hudPaper, 0.92), frac);
+       return;
+     }
+ 
+@@ -263,7 +263,7 @@ export class Screens {
+     // Ink slab behind the word so it reads even over bright foam.
+     const slab = slantPath(-w * 0.24, -px * 0.62, w * 0.48, px * 0.98, 34 * s);
+     inked(g, slab, rgba(HEX.ink, 1), rgba(HEX.raceLine, 0.9), PLATE_W * s);
+-    inkText(g, 'GO!', 0, px * 0.3, {
++    inkText(g, '출발!', 0, px * 0.3, {
+       font: `900 ${px}px ${FONT_STACK}`,
+       fill: rgba(HEX.raceLine, 1),
+       ink: rgba(HEX.ink, 1),
+@@ -314,7 +314,7 @@ export class Screens {
+     const x = w * 0.5 + (1 - inT) * w * 0.28;
+     g.save();
+     g.globalAlpha = out;
+-    this.tab(g, x, y, `LAP ${Math.min(ctx.player.lap + 1, CONFIG.race.laps)}`, s, rgba(HEX.boostHot, 1), t);
++    this.tab(g, x, y, `랩 ${Math.min(ctx.player.lap + 1, CONFIG.race.laps)}`, s, rgba(HEX.boostHot, 1), t);
+     g.restore();
+   }
+ 
+@@ -402,7 +402,7 @@ export class Screens {
+     g.translate(boardCx, headY);
+     g.scale(0.82 + hIn * 0.18, 0.82 + hIn * 0.18);
+     const won = player.place === 1;
+-    inkText(g, won ? 'VICTORY' : 'RACE COMPLETE', 0, -34 * s, {
++    inkText(g, won ? '우승' : '레이스 종료', 0, -34 * s, {
+       font: `800 ${Math.round(21 * s)}px ${FONT_STACK}`,
+       fill: rgba(won ? HEX.boostHot : HEX.hudDim, 1),
+       align: 'center',
+@@ -507,7 +507,7 @@ export class Screens {
+           skew: 0.12,
+         });
+       } else {
+-        inkText(g, 'WINNER', gapX, by + 6 * s, {
++        inkText(g, '우승자', gapX, by + 6 * s, {
+           font: `800 ${Math.round(13 * s)}px ${FONT_STACK}`,
+           fill: rgba(HEX.boostHot, 1),
+           align: 'right',
+@@ -528,7 +528,7 @@ export class Screens {
+           skew: 0.09,
+         });
+       } else {
+-        inkText(g, 'DNF', tx, ry + 33 * s, {
++        inkText(g, '미완주', tx, ry + 33 * s, {
+           font: `800 ${Math.round(24 * s)}px ${FONT_STACK}`,
+           fill: rgba(HEX.warn, 1),
+           align: 'right',
+@@ -536,7 +536,7 @@ export class Screens {
+         });
+       }
+       const best = isFinite(r.bestLap) ? formatTime(r.bestLap) : '--:--.---';
+-      inkText(g, `BEST ${best}`, tx, ry + rowH - 9 * s, {
++      inkText(g, `최고 ${best}`, tx, ry + rowH - 9 * s, {
+         font: `700 ${Math.round(13 * s)}px ${FONT_STACK}`,
+         fill: rgba(HEX.hudDim, 1),
+         align: 'right',
+@@ -557,7 +557,7 @@ export class Screens {
+       const px = boardCx - pw * 0.5;
+       const plaque = cutPath(px, footY - 24 * s, pw, 46 * s, 14 * s, 0b0101);
+       plate(g, plaque, s, { edge: rgba(HEX.raceLine, 0.9) });
+-      inkText(g, 'FASTEST LAP', px + 18 * s, footY + 4 * s, {
++      inkText(g, '최고 랩', px + 18 * s, footY + 4 * s, {
+         font: `800 ${Math.round(13 * s)}px ${FONT_STACK}`,
+         fill: rgba(HEX.raceLine, 1),
+         align: 'left',
+@@ -599,7 +599,7 @@ export class Screens {
+           plate(g, cell, s, {
+             edge: isBest ? rgba(HEX.raceLine, 0.9) : rgba(HEX.hudPaper, 0.72),
+           });
+-          inkText(g, `L${i + 1}`, x + 16 * s, sy + 26 * s, {
++          inkText(g, `${i + 1}랩`, x + 16 * s, sy + 26 * s, {
+             font: `800 ${Math.round(14 * s)}px ${FONT_STACK}`,
+             fill: rgba(isBest ? HEX.raceLine : HEX.hudDim, 1),
+             align: 'left',
+@@ -633,7 +633,7 @@ export class Screens {
+         g.lineTo(bx2 - dir * 10 * s, py + 6 * s);
+         g.stroke();
+       }
+-      inkText(g, 'PRESS  R  TO RACE AGAIN', boardCx, py + 2 * s, {
++      inkText(g, 'R 키로 다시 레이싱', boardCx, py + 2 * s, {
+         font: `800 ${Math.round(17 * s)}px ${FONT_STACK}`,
+         fill: rgba(HEX.hudPaper, 0.55 + 0.45 * blink),
+         align: 'center',
+@@ -653,7 +653,7 @@ export class Screens {
+     const cy = h * 0.4;
+     const slab = slantPath(cx - w * 0.26, cy - 44 * s, w * 0.52, 88 * s, 30 * s);
+     inked(g, slab, rgba(HEX.ink, 1), rgba(HEX.boostHot, 0.9), PLATE_W * s);
+-    inkText(g, 'FINISH', cx, cy + 22 * s, {
++    inkText(g, '완주', cx, cy + 22 * s, {
+       font: `900 ${Math.round(62 * s)}px ${FONT_STACK}`,
+       fill: rgba(HEX.hudPaper, 1),
+       ink: rgba(HEX.ink, 1),
+diff --git a/vite.config.ts b/vite.config.ts
+index 6772ed6..78d276c 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -1,6 +1,9 @@
++import { viteSingleFile } from 'vite-plugin-singlefile';
+ import { defineConfig } from 'vite';
+ 
+ export default defineConfig({
++  base: '/Contril/',
++  plugins: [viteSingleFile()],
+   server: {
+     port: 5173,
+     strictPort: false,
+@@ -17,7 +20,7 @@ export default defineConfig({
+     rollupOptions: {
+       output: {
+         // Keep three in its own chunk so the game code stays cache-friendly.
+-        manualChunks: { three: ['three'] },
++        
+       },
+     },
+   },
