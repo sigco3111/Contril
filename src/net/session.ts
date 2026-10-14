@@ -216,7 +216,7 @@ export class NetSession {
 
     const room = joinRoom({ appId: CONFIG.net.appId }, code, {
       onJoinError: (details) =>
-        this.hooks.onError(`Could not reach the signalling relays (${details.error}).`),
+        this.hooks.onError(`연결 릴레이에 접속하지 못했습니다 (${details.error}).`),
     });
     this.room = room;
 
@@ -309,7 +309,7 @@ export class NetSession {
       // broadcasting the AI field.
       if (hostPeer && peerId === hostPeer.peerId) {
         void this.leave();
-        this.hooks.onError('The host left the room.');
+        this.hooks.onError('방장이 방을 나갔습니다.');
         return;
       }
       this.roster = this.roster.filter((p) => p.peerId !== peerId);
