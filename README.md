@@ -1,159 +1,61 @@
-# CONTRIL 🌊
+# CONTRIL 한글판 🌊
 
-> **A cel-shaded arcade boat racing game on an infinite procedural ocean.**
-> Anime-inspired cel shading, procedural ocean physics, zero external assets.
+셀셰이딩 바다 위에서 AI 보트 3대와 겨루는 3D 아케이드 보트 레이싱입니다. 드리프트로 부스트를 모으고, 체크포인트를 통과하며, 미사일로 상대를 견제하세요.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-3DDC84?style=for-the-badge&logo=vercel&logoColor=white)](https://contril-7zpy.vercel.app/)
+## 실행
 
----
+GitHub Pages의 한국어 버전은 저장소의 `docs/index.html`을 사용합니다. 메뉴, 로비, 속도·드리프트 HUD, 랩 기록, 순위와 결과 화면을 한국어로 번역했습니다. 원본 내부 ID와 게임 구조는 유지했습니다.
 
-## ⚡ Quick Start
+## 조작
+
+| 기능 | 키보드 / 마우스 | 게임패드 |
+|---|---|---|
+| 가속 | W / ↑ / Shift | RT / A |
+| 제동·후진 | S / ↓ | LT |
+| 방향 조절 | A·D / ←·→ | 왼쪽 스틱 |
+| 드리프트·부스트 | Space를 누른 채 회전하고 놓기 | B / RB |
+| 조준 | 마우스 오른쪽 버튼 누르기 | - |
+| 미사일 발사 | F / 조준 중 왼쪽 클릭 | X |
+| 카메라 변경 | C | - |
+| 다시 시작 | 결과 화면에서 R | - |
+| 메뉴로 돌아가기 | 결과·로비에서 Esc | - |
+
+## 플레이 안내
+
+- `혼자 레이싱`을 선택하면 AI 3대와 레이스가 시작됩니다.
+- 드리프트를 유지하면 3단계 부스트가 충전됩니다. Space를 놓으면 가속합니다.
+- 체크포인트를 깔끔하게 5번 통과할 때마다 미사일을 얻습니다. 최대 3발까지 보유합니다.
+- 체크포인트를 지나치게 놓치면 마지막 체크포인트로 돌아갑니다.
+- 원본 게임은 키보드 또는 게임패드 중심이며, 별도의 모바일 터치 조작은 제공하지 않습니다.
+
+## 온라인 기능과 제한
+
+온라인 방 생성·코드 참가 메뉴도 번역해 보존했습니다. WebRTC 연결 신호는 Trystero와 외부 공개 Nostr 릴레이를 사용합니다. 정적 사이트에 별도 게임 서버는 필요하지 않지만, 릴레이 상태·네트워크·브라우저 정책에 따라 접속이 실패할 수 있습니다. 이 배포의 기본 검증 범위는 싱글플레이이며 실제 다자간 온라인 레이스는 검증하지 않았습니다.
+
+## 코드와 빌드
+
+원본 소스는 포크에 보존됩니다. 한글화 소스 변경 전체는 `korean-localization.patch`에 있으며, 아래 명령으로 원본 소스에 적용할 수 있습니다. Pages에는 이 변경을 적용한 정적 단일 HTML 빌드(`docs/index.html`)를 실었습니다. 번들 안에도 한국어 UI가 포함되어 있으므로 서버 없이 실행됩니다.
 
 ```bash
-# Install dependencies
+git apply korean-localization.patch
 npm install
-
-# Start local development server
-npm run dev
+npm run typecheck
+npm run build
 ```
 
-Visit **http://localhost:5173** to play locally.
+- `src/ui/`: 메뉴·HUD·결과 화면
+- `src/net/`: 방 연결·네트워크
+- `src/water/`, `src/render/`: 바다·셀셰이딩
+- `docs/index.html`: 한국어 정적 배포본
+- `README.en.md`: 원본 영문 README
+- 한국어 글꼴: Noto Sans KR, 맑은 고딕 및 시스템 글꼴 폴백. Google Fonts에 접속하지 못해도 시스템 글꼴로 표시됩니다.
 
----
+## 원작자와 라이선스
 
-## 🎮 Controls
+원작: **SourabhX16**와 원본 저장소 기여자들.
 
-| Action | Keyboard | Gamepad |
-|---|---|---|
-| **Throttle** | `W` / `↑` / `Shift` | RT / A |
-| **Brake / Reverse** | `S` / `↓` | LT |
-| **Steer** | `A` `D` / `←` `→` | Left Stick |
-| **Drift & Boost** | Hold `Space` | B / RB |
-| **Scope (Aim)** | Hold `Right Click` | — |
-| **Fire Missile** | `F` / `Left Click` (in scope) | X |
-| **Restart Race** | `R` (on results screen) | — |
-| **Change Camera** | `C` | — |
-| **Back to Menu** | `Esc` (on results screen / lobby) | — |
+원본 저장소: https://github.com/SourabhX16/Contril
 
-* **Throttle:** `Shift` and `W`/`↑` both pin the throttle. `Space` is drift-only.
-* **Scope & Fire:** Hold `Right Click` to scope in — the camera zooms and the mouse freely rotates your aim (yaw/pitch) around the boat. `Left Click` fires along the centre reticle; unscoped, `Left Click` / `F` / gamepad `X` fire straight off the bow.
-* **Drift Mechanic:** Hold `Space` while steering through corners to build up your boost meter (3 tiers). Release for an instant speed burst!
-* **Missiles:** Earned every 5 clean checkpoint passes (capped at 3). Aim with the scope, fire with `Left Click`/`F`/`X`. Missiles travel at 187 km/h, arm after 0.4 s, and create a tidal wave that shoves nearby boats.
-* **Checkpoint Boost:** Cleanly passing through a gate awards a short thrust boost. Consecutive clean passes increase your streak — skip too many gates and you respawn at the last checkpoint.
+한글화와 정적 배포: **sigco3111** 포크. 이 버전은 원작이 아니라 한국어 번역·배포본입니다.
 
----
-
-## 🌐 Multiplayer
-
-Online races are peer-to-peer (WebRTC via [Trystero](https://github.com/dmotz/trystero)) — there is **no game server**, and signalling runs over public Nostr relays, so the static deployment works unchanged.
-
-* **Host online** from the title menu to open a room and get a 5-letter code; friends pick **Join with code** (or open `?room=CODE`).
-* Up to **4 human racers**; empty grid slots are filled by the usual AI drivers.
-* Each client simulates its own boat and broadcasts snapshots at 15 Hz; remote boats are interpolated with a 130 ms buffer. The host simulates the AI field, so every client sees the same race.
-* Race start and restarts are synchronised to a shared countdown anchored on each client's own monotonic clock — wall-clock skew never enters it.
-* A human who disconnects mid-race is replaced by their slot's AI driver.
-* Solo play is untouched: pick **Solo race**, or add `?quick=1` to boot straight into a race.
-
----
-
-## ✨ Highlights
-
-* Procedural, infinite Gerstner ocean with six summed waves — no tiling, no seams, re-centred radial mesh.
-* Dual-pass cel shading (inverted-hull silhouettes + G-buffer Sobel edges) for crisp, stylised ink outlines.
-* Realistic buoyancy sampled across multiple hull points for dynamic pitch, roll and slam responses.
-* Procedural riders and fully synthesised audio — every mesh, animation and sound is generated in code.
-* **Seeded procedural tracks** — star-polygon circuits generated from a seed, shared across all peers.
-* **Momentum-transfer collisions** — two-body impulse with restitution, mass weighting, and ram-transfer energy.
-* **Missiles & tidal blasts** — fire-and-forget missiles that detonate into a wave pushing nearby hulls.
-* **Three AI archetypes** — rammer (targets humans), shooter (auto-fires ahead), neverdecel (full-throttle chaos).
-
----
-
-## 🏗️ Architecture & Conventions
-
-Read `ARCHITECTURE.md` before changing rendering, wave, or physics code — it documents coordinate systems, the cel pipeline API, frame-loop order and performance budgets.
-
-Quick orientation of the source layout:
-
-```
-src/
-  core/       contracts, palette, config, input, maths, RNG
-  water/      gerstner.ts (THE wave field), ocean mesh, water shader, foam
-  render/     cel materials, procedural textures, post stack, sky
-  boat/       hull geometry, buoyancy, handling
-  rider/      rig + procedural animation
-  race/       spline circuit, gates, lap logic, AI drivers, weapons, collisions
-  net/        P2P session (Trystero), snapshot broadcast/interpolation
-  camera/     spring-damped chase rig + harness presets
-  ui/         canvas-2D HUD, minimap, screens, title/lobby menu
-  audio/      Web Audio synthesis
-harness/      Playwright retina screenshot harness + multiplayer probe
-```
-
-Two rules that matter more than anything else:
-
-1. One wave field — `src/water/gerstner.ts` is the single source of truth. CPU calls `sampleOcean()`; GPU receives the same wave uniforms. If they diverge, boats will float incorrectly.
-2. One palette — `src/core/palette.ts`. Avoid hard-coded colour literals in subsystems.
-
-See `KNOWN_GAPS.md` for a measured list of outstanding work and performance targets.
-
----
-
-## 🧪 Screenshot Harness & Deterministic Tests
-
-A headless Playwright harness captures deterministic frames for visual regression and performance. Use it to verify shader changes against exact frames.
-
-Common commands:
-
-```bash
-node harness/capture.mjs                        # full shot list
-node harness/capture.mjs --shots=hero,foam_wake # named shots
-node harness/capture.mjs --list                 # what each shot proves
-node harness/capture.mjs --out=shots/round7 --dpr=2 --width=1600
-```
-
-The harness boots the game in a headless Chromium with a real Metal/ANGLE backend, seeds the RNG for deterministic simulation, and captures from named camera rigs so the same shot always produces the same frame.
-
-The harness also exposes a window API when run with `?harness=1` so tests can drive simulation (`simulate()`), set camera presets (`setCameraPreset()`), set controls (`setControls()`), and gather metrics (`stats()`). See `ARCHITECTURE.md` for the complete table.
-
----
-
-## 🐛 Debugging
-
-Use `?debug=1` to display an on-screen perf overlay (fps, frame time, pixel ratio, draw calls, triangles). Add `?seed=<n>` to reproduce procedural variations.
-
----
-
-## 🚀 Performance (measured)
-
-Benchmarks are taken on the production build. Run:
-
-```bash
-npm run build && node harness/perf.mjs --seconds=14 --dpr=2
-```
-
-Measured on Apple MacBook Air M4 at `1440×810` (Device Pixel Ratio: `2.0`):
-
-| Metric | Result | Target Budget |
-|---|---|---|
-| **Mean Frame Time** | **16.75 ms** (~59.7 FPS) | < 16.6 ms |
-| **Median (p50)** | **16.70 ms** | — |
-| **p95** | **17.40 ms** | — |
-| **Draw Calls** | **73** | < 220 |
-| **Triangles** | **200k** | < 1.6 M |
-| **Adaptive Pixel Ratio** | **2.00 (Full Resolution)** | — |
-
-Performance measurement is intentional: the adaptive pixel-ratio controller samples median frame time, backs off quickly when the budget is exceeded, and climbs slowly to avoid oscillation.
-
----
-
-## 🛠️ Tech Stack
-
-* **Core:** TypeScript, Three.js (r169+)
-* **Build Tool:** Vite
-* **Audio & FX:** Web Audio API
-* **Testing / Harness:** Playwright
-* **Deployment:** Vercel
-
----
-
+원본 저장소에는 작업 확인 시 LICENSE 파일이 없었습니다. 이 포크는 MIT 등 새 라이선스를 임의로 부여하지 않습니다. 공개 코드라는 이유만으로 재사용·재배포 권한이 보장되지는 않으며, 다른 용도로 이용할 때에는 원작자에게 권한을 확인하세요.
