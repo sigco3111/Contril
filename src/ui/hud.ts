@@ -302,7 +302,7 @@ export class Hud implements HudAPI {
 
     const readout = slantPath(rx, ry, rw, rh, rh * PLATE_SKEW);
     plate(g, readout, s, { hatchRect: [rx, ry, rw, rh] });
-    inkText(g, 'SPEED', rx + 18 * s, ry + 21 * s, {
+    inkText(g, '속도', rx + 18 * s, ry + 21 * s, {
       font: `800 ${Math.round(11 * s)}px ${FONT_STACK}`,
       fill: rgba(HEX.hudDim, 1),
       align: 'left',
@@ -334,7 +334,7 @@ export class Hud implements HudAPI {
     const bph = bh + 44 * s;
     const bPlate = slantPath(bx - 14 * s, by - 34 * s, bpw, bph, bph * PLATE_SKEW);
     plate(g, bPlate, s, { hatchRect: [bx - 14 * s, by - 34 * s, bpw, bph] });
-    inkText(g, 'DRIFT', bx + 2 * s, by - 12 * s, {
+    inkText(g, '드리프트', bx + 2 * s, by - 12 * s, {
       font: `800 ${Math.round(11.5 * s)}px ${FONT_STACK}`,
       fill: rgba(HEX.foamShade, 0.9),
       align: 'left',
@@ -572,10 +572,10 @@ export class Hud implements HudAPI {
     let tag: string | null = null;
     let tagCol: number = HEX.waterCrest;
     if (st.airborne) {
-      tag = 'AIR';
+      tag = '공중';
       tagCol = HEX.waterCrest;
     } else if (st.forwardSpeed < -0.6) {
-      tag = 'REV';
+      tag = '후진';
       tagCol = HEX.warn;
     }
     if (tag) {
@@ -653,7 +653,7 @@ export class Hud implements HudAPI {
       const cx = bx + 3 * (bw + 7 * s) + 16 * s;
       g.save();
       g.globalAlpha = k;
-      inkText(g, 'BOOST', cx, by + bh - 6 * s, {
+      inkText(g, '부스트', cx, by + bh - 6 * s, {
         font: `900 ${Math.round(27 * s)}px ${FONT_STACK}`,
         fill: rgba(HEX.boostHot, 1),
         ink: rgba(HEX.ink, 1),
@@ -997,7 +997,7 @@ export class Hud implements HudAPI {
 
     // ── Lap counter.
     const lx = ix + 150 * s;
-    inkText(g, 'LAP', lx, iy + 26 * s, {
+    inkText(g, '랩', lx, iy + 26 * s, {
       font: `800 ${Math.round(12 * s)}px ${FONT_STACK}`,
       fill: rgba(HEX.hudDim, 1),
       align: 'left',
@@ -1027,8 +1027,8 @@ export class Hud implements HudAPI {
     const bestIsNew =
       p.lapTimes.length > 0 && isFinite(p.bestLap) && Math.abs(p.bestLap - last) < 1e-6;
     const cols: [string, number, string][] = [
-      ['LAST', last, rgba(HEX.hudPaper, 1)],
-      ['BEST', p.bestLap, bestIsNew ? rgba(HEX.raceLine, 1) : rgba(HEX.foamShade, 1)],
+      ['이전', last, rgba(HEX.hudPaper, 1)],
+      ['최고', p.bestLap, bestIsNew ? rgba(HEX.raceLine, 1) : rgba(HEX.foamShade, 1)],
     ];
     cols.forEach(([label, value, col], i) => {
       const cx = ix + 20 * s + i * (iw - 44 * s) * 0.5;
@@ -1127,7 +1127,7 @@ export class Hud implements HudAPI {
       inkText(g, gapTxt, rx + plateW - 9 * s, y + rowH - 7 * s, {
         font: `800 ${Math.round(11.5 * s)}px ${FONT_STACK}`,
         fill:
-          gapTxt === 'LEAD'
+          gapTxt === '선두'
             ? rgba(HEX.boostHot, 1)
             : isPlayer
               ? rgba(HEX.warn, 1)
@@ -1144,7 +1144,7 @@ export class Hud implements HudAPI {
    * per-gate delta flickers every time two boats straddle a checkpoint.
    */
   private gapText(ctx: GameContext, r: Racer, leader: Racer) {
-    if (r === leader) return 'LEAD';
+    if (r === leader) return '선두';
     const dLaps = leader.progress - r.progress;
     const metres = dLaps * ctx.track.length;
     const pace = Math.max(9, Math.abs(r.state.forwardSpeed));
@@ -1176,7 +1176,7 @@ export class Hud implements HudAPI {
       g.stroke();
     }
     g.restore();
-    inkText(g, 'WRONG WAY', cx, cy + 12 * s, {
+    inkText(g, '역주행', cx, cy + 12 * s, {
       font: `900 ${Math.round(34 * s)}px ${FONT_STACK}`,
       fill: rgba(HEX.warn, 1),
       ink: rgba(HEX.ink, 1),
