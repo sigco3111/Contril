@@ -41,7 +41,7 @@ const _waterPlane = new Plane(new Vector3(0, 1, 0), 0);
 const _aimPt = new Vector3();
 
 /** Grid names per slot. Humans rename slots 1–3 only by joining them. */
-export const SLOT_NAMES = ['YOU', 'KAIRA', 'NOX', 'PIP'];
+export const SLOT_NAMES = ['나', '카이라', '녹스', '핍'];
 
 class Game {
   private scene = new Scene();
