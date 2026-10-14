@@ -97,7 +97,7 @@ export class Menu {
     this.backBtn.addEventListener('click', () => this.controller.leave());
     this.roomCodeEl.addEventListener('click', () => {
       void navigator.clipboard?.writeText(this.roomCode).then(
-        () => this.showLobbyStatus(`${this.roomCode} copied`, true),
+        () => this.showLobbyStatus(`${this.roomCode} 복사됨`, true),
         () => {},
       );
     });
@@ -180,7 +180,7 @@ export class Menu {
       const entry = s.roster.find((p) => p.slot === i);
       slots.push({
         slot: i,
-        name: entry ? (entry.peerId === s.myPeerId ? `${entry.name} (you)` : entry.name || '…') : 'AI',
+        name: entry ? (entry.peerId === s.myPeerId ? `${entry.name} (나)` : entry.name || '…') : 'AI',
         human: !!entry,
         mine: !!entry && entry.peerId === s.myPeerId,
       });
@@ -200,7 +200,7 @@ export class Menu {
         tag.className = 'slot-tag';
         // AI slots already say "AI" in the name column; only human rows carry
         // a readiness tag.
-        tag.textContent = mine ? '' : human ? 'READY' : '';
+        tag.textContent = mine ? '' : human ? '준비 완료' : '';
         li.append(chip, nm, tag);
         return li;
       }),
@@ -211,15 +211,15 @@ export class Menu {
       this.startBtn.disabled = s.roster.length < 1 || waiting;
       this.showLobbyStatus(
         waiting
-          ? 'Waiting for pilots…'
+          ? '레이서 기다리는 중…'
           : s.roster.length === 4
-            ? 'Room full'
-            : `${s.roster.length} of 4 slots taken`,
+            ? '방이 가득 찼습니다'
+            : `4명 중 ${s.roster.length}명 참가`,
         true,
       );
     } else {
       this.startBtn.disabled = true;
-      this.showLobbyStatus('Joined — waiting for the host to start', true);
+      this.showLobbyStatus('참가 완료 - 방장의 시작을 기다리는 중', true);
     }
   }
 
@@ -227,7 +227,7 @@ export class Menu {
 
   private name(): string {
     const n = this.nameInput.value.trim().toUpperCase();
-    return (n || 'PILOT').slice(0, 10);
+    return (n || '레이서').slice(0, 10);
   }
 
   private persistName() {
